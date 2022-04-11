@@ -3,8 +3,12 @@ import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpaci
 import  Task  from './components/Task'
 
 export default function App() {
-  const [task, setTask] = useState();
+  const [task, setTask] = useState(null);
   const [taskItems, setTaskItems] = useState([]);
+
+  const isDisabled = () => {
+    return task===null || task === "" ? true : false;
+  }
 
   const handleAddTask = () => {
     Keyboard.dismiss();
@@ -49,9 +53,9 @@ export default function App() {
         style={styles.writeTaskWrapper}
       >
         <TextInput style={styles.input} placeholder={'Добави задача'} value={task} onChangeText={text => setTask(text)} />
-        <TouchableOpacity onPress={() => handleAddTask()}>
+        <TouchableOpacity onPress={() => handleAddTask()} disabled={isDisabled()}>
           <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
+            <Text style={isDisabled() ? styles.addTextDisabled : styles.addTextActive}>+</Text>
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -103,5 +107,6 @@ const styles = StyleSheet.create({
     borderColor: '#C0C0C0',
     borderWidth: 1,
   },
-  addText: {},
+  addTextActive: { color:'#E8EAED' },
+  addTextDisabled: {},
 });
